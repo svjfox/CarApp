@@ -19,4 +19,9 @@
     <ProjectReference Include="..\CarApp.Data\CarApp.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>
