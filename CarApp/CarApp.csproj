@@ -13,4 +13,10 @@
     <PackageReference Include="xunit.extensibility.core" Version="2.9.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CarApp.ApplicationServices\CarApp.ApplicationServices.csproj" />
+    <ProjectReference Include="..\CarApp.Core\CarApp.Core.csproj" />
+    <ProjectReference Include="..\CarApp.Data\CarApp.Data.csproj" />
+  </ItemGroup>
+
 </Project>
