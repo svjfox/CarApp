@@ -1,0 +1,24 @@
+﻿@model CarApp.Core.Entities.Car
+
+<h2>Edit Car</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div>
+        <label for="Make">Make</label>
+        <input type="text" id="Make" asp-for="Make" />
+    </div>
+    <div>
+        <label for="Model">Model</label>
+        <input type="text" id="Model" asp-for="Model" />
+    </div>
+    <div>
+        <label for="Year">Year</label>
+        <input type="number" id="Year" asp-for="Year" />
+    </div>
+    <div>
+        <label for="Color">Color</label>
+        <input type="text" id="Color" asp-for="Color" />
+    </div>
+    <button type="submit">Save</button>
+</form>
