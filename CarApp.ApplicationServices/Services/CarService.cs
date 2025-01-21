@@ -7,6 +7,8 @@ using CarApp.Core.Dto;
 using CarApp.Core.Domain;
 using CarApp.Core.ServiceInterface;
 using System.Runtime.ConstrainedExecution;
+using CarApp.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarApp.ApplicationServices.Services
 {

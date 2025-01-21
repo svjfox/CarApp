@@ -6,8 +6,10 @@ namespace CarApp.Data
 {
     public class CarAppContext : DbContext
     {
+        public CarAppContext(DbContextOptions<CarAppContext> options) : base(options) { }
         public DbSet<Car> Cars { get; set; }
 
-        public CarAppContext(DbContextOptions<CarAppContext> options) : base(options) { }
+        public DbSet<FileToDatabase> fileToDatabases { get; set; }
+
     }
 }
