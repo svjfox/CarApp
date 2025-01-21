@@ -1,0 +1,28 @@
+﻿@model CarApp.Core.Dto.CarDto
+
+@{
+    ViewData["Title"] = "Create New Car";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label for="Model">Model</label>
+        <input type="text" class="form-control" id="Model" name="Model" value="@Model.Model" required />
+    </div>
+    <div class="form-group">
+        <label for="Manufacturer">Manufacturer</label>
+        <input type="text" class="form-control" id="Manufacturer" name="Manufacturer" value="@Model.Manufacturer" required />
+    </div>
+    <div class="form-group">
+        <label for="Year">Year</label>
+        <input type="number" class="form-control" id="Year" name="Year" value="@Model.Year" required />
+    </div>
+    <div class="form-group">
+        <label for="Color">Color</label>
+        <input type="text" class="form-control" id="Color" name="Color" value="@Model.Color" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Create</button>
+</form>

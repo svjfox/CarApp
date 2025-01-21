@@ -20,10 +20,4 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Domain\" />
-    <Folder Include="Dto\" />
-    <Folder Include="ServiceInterface\" />
-  </ItemGroup>
-
 </Project>

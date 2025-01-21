@@ -1,0 +1,30 @@
+﻿@model CarApp.Core.Dto.CarDto
+
+@{
+    ViewData["Title"] = "Car Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>Model</th>
+            <td>@Model.Model</td>
+        </tr>
+        <tr>
+            <th>Manufacturer</th>
+            <td>@Model.Manufacturer</td>
+        </tr>
+        <tr>
+            <th>Year</th>
+            <td>@Model.Year</td>
+        </tr>
+        <tr>
+            <th>Color</th>
+            <td>@Model.Color</td>
+        </tr>
+    </table>
+</div>
+
+<a href="@Url.Action("Index", "Cars")" class="btn btn-secondary">Back to List</a>
