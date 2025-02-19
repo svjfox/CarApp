@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Identity;
 using CarApp.Core.Domain;
-using Fluent.Infrastructure.FluentModel;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace CarApp
 {
@@ -22,12 +23,13 @@ namespace CarApp
             builder.Services.AddScoped<ICarService, CarService>();
 
             // Настройка контекста базы данных
-
-
             builder.Services.AddDbContext<CarAppContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection"),
+                    b => b.MigrationsAssembly("CarApp.Data") // Указываем сборку для миграций
+                ));
 
-            // Настройка Identity (если нужно для пользователей)
+            // Настройка Identity
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
@@ -41,50 +43,43 @@ namespace CarApp
             // Настройка сессий
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(30); // Время жизни сессии
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+            // Настройка FluentValidation
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddFluentValidationClientsideAdapters();
+            builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
             var app = builder.Build();
 
             // Настройка HTTP конвейера запросов
             if (!app.Environment.IsDevelopment())
             {
-                // Использование обработчика исключений для продакшн-окружения
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts(); // Включение HSTS для повышения безопасности
+                app.UseHsts();
             }
             else
             {
-                // Для режима разработки отображение подробных ошибок
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection(); // Редирект HTTP на HTTPS
-            app.UseStaticFiles(); // Использование статических файлов
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-            // Настройка для дополнительных статических файлов
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "uploads")),
-                RequestPath = "/uploads"
-            });
+            app.UseSession();
 
-            app.UseSession(); // Подключение сессий
+            app.UseRouting();
 
-            app.UseRouting(); // Включение маршрутизации
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseAuthentication(); // Включение аутентификации
-
-            app.UseAuthorization(); // Включение авторизации
-
-            // Настройка маршрутов
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Cars}/{action=Index}/{id?}");
 
-            // Запуск приложения
             app.Run();
         }
     }

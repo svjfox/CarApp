@@ -1,19 +1,15 @@
-﻿using CarApp.Core.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using CarApp.Core.Domain;
 
 namespace CarApp.Core.ServiceInterface
 {
     public interface ICarService
     {
-        Task<IEnumerable<CarDto>> GetAllCarsAsync();
-        Task<CarDto> GetCarByIdAsync(int id);
-        Task CreateCarAsync(CarDto carDto);
-        Task UpdateCarAsync(int id, CarDto carDto);
-        Task DeleteCarAsync(int id);
+        Task<IEnumerable<Car>> GetAllCarsAsync();
+        Task<Car> GetCarByIdAsync(Guid id);
+        Task<Car> AddCarAsync(Car car);
+        Task<Car> UpdateCarAsync(Car car);
+        Task DeleteCarAsync(Guid id);
     }
 }
-
