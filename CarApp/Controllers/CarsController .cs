@@ -1,7 +1,8 @@
-﻿using CarApp.ApplicationServices.Services;
-using CarApp.Core.Dto;
-using CarApp.Core.ServiceInterface;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using CarApp.Core.Domain;
+using CarApp.Core.ServiceInterface;
 
 namespace CarApp.Controllers
 {
@@ -14,34 +15,29 @@ namespace CarApp.Controllers
             _carService = carService;
         }
 
-        // GET: Cars
         public async Task<IActionResult> Index()
         {
             var cars = await _carService.GetAllCarsAsync();
             return View(cars);
         }
 
-        // GET: Cars/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Cars/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Model,Manufacturer,Year,Color")] CarDto carDto)
+        public async Task<IActionResult> Create(Car car)
         {
             if (ModelState.IsValid)
             {
-                await _carService.CreateCarAsync(carDto);
+                await _carService.AddCarAsync(car);
                 return RedirectToAction(nameof(Index));
             }
-            return View(carDto);
+            return View(car);
         }
 
-        // GET: Cars/Edit/5
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             var car = await _carService.GetCarByIdAsync(id);
             if (car == null)
@@ -51,26 +47,18 @@ namespace CarApp.Controllers
             return View(car);
         }
 
-        // POST: Cars/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Model,Manufacturer,Year,Color")] CarDto carDto)
+        public async Task<IActionResult> Edit(Car car)
         {
-            if (id != carDto.Model)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                await _carService.UpdateCarAsync(id, carDto);
+                await _carService.UpdateCarAsync(car);
                 return RedirectToAction(nameof(Index));
             }
-            return View(carDto);
+            return View(car);
         }
 
-        // GET: Cars/Delete/5
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var car = await _carService.GetCarByIdAsync(id);
             if (car == null)
@@ -80,24 +68,11 @@ namespace CarApp.Controllers
             return View(car);
         }
 
-        // POST: Cars/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             await _carService.DeleteCarAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        // GET: Cars/Details/5
-        public async Task<IActionResult> Details(int id)
-        {
-            var car = await _carService.GetCarByIdAsync(id);
-            if (car == null)
-            {
-                return NotFound();
-            }
-            return View(car);
         }
     }
 }

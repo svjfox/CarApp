@@ -1,30 +1,47 @@
-﻿@model CarApp.Core.Dto.CarDto
+﻿@model CarApp.Core.Domain.Car
 
 @{
     ViewData["Title"] = "Edit Car";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h1>Edit Car</h1>
 
-<form asp-action="Edit">
-    <input type="hidden" name="id" value="@Model.Model" />
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="form-group">
-        <label for="Model">Model</label>
-        <input type="text" class="form-control" id="Model" name="Model" value="@Model.Model" required />
-    </div>
-    <div class="form-group">
-        <label for="Manufacturer">Manufacturer</label>
-        <input type="text" class="form-control" id="Manufacturer" name="Manufacturer" value="@Model.Manufacturer" required />
-    </div>
-    <div class="form-group">
-        <label for="Year">Year</label>
-        <input type="number" class="form-control" id="Year" name="Year" value="@Model.Year" required />
-    </div>
-    <div class="form-group">
-        <label for="Color">Color</label>
-        <input type="text" class="form-control" id="Color" name="Color" value="@Model.Color" required />
-    </div>
+            <input type="hidden" asp-for="Id" />
 
-    <button type="submit" class="btn btn-success">Save</button>
-</form>
+            <div class="form-group">
+                <label asp-for="Brand" class="control-label"></label>
+                <input asp-for="Brand" class="form-control" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Model" class="control-label"></label>
+                <input asp-for="Model" class="form-control" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Year" class="control-label"></label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Color" class="control-label"></label>
+                <input asp-for="Color" class="form-control" />
+                <span asp-validation-for="Color" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>

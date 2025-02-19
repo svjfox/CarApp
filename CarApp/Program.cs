@@ -22,6 +22,8 @@ namespace CarApp
             builder.Services.AddScoped<ICarService, CarService>();
 
             // Настройка контекста базы данных
+
+
             builder.Services.AddDbContext<CarAppContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
