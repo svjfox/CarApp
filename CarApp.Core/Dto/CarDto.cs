@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CarApp.Core.Dto
+﻿namespace CarApp.Core.Dto
 {
     public class CarDto
     {
@@ -16,6 +10,4 @@ namespace CarApp.Core.Dto
         public DateTime CreatedAt { get; set; }  // Дата создания
         public DateTime ModifiedAt { get; set; }  // Дата последнего изменения
     }
-
 }
-

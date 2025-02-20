@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.12.35506.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp", "CarApp.csproj", "{9305404C-3CB8-465D-B2C1-4B9749D74CFD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{125632D8-DEB1-45D1-841F-89AD43B480AD} = {125632D8-DEB1-45D1-841F-89AD43B480AD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp.Core", "..\CarApp.Core\CarApp.Core.csproj", "{125632D8-DEB1-45D1-841F-89AD43B480AD}"
 EndProject

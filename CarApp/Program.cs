@@ -2,7 +2,6 @@ using CarApp.Data;
 using CarApp.ApplicationServices.Services;
 using CarApp.Core.ServiceInterface;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Identity;
 using CarApp.Core.Domain;
 using FluentValidation;
@@ -19,9 +18,6 @@ namespace CarApp
             // Добавление сервисов в контейнер зависимостей
             builder.Services.AddControllersWithViews();
 
-            // Регистрация сервисов для приложения CarApp
-            builder.Services.AddScoped<ICarService, CarService>();
-
             // Настройка контекста базы данных
             builder.Services.AddDbContext<CarAppContext>(options =>
                 options.UseSqlServer(
@@ -29,13 +25,19 @@ namespace CarApp
                     b => b.MigrationsAssembly("CarApp.Data") // Указываем сборку для миграций
                 ));
 
+            // Регистрация сервисов для приложения CarApp
+            builder.Services.AddScoped<ICarService, CarService>();
+
             // Настройка Identity
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                options.SignIn.RequireConfirmedAccount = true;
-                options.Password.RequiredLength = 6;
-                options.Lockout.MaxFailedAccessAttempts = 3;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.SignIn.RequireConfirmedAccount = false; // Отключение подтверждения аккаунта
+                options.Password.RequiredLength = 6; // Минимальная длина пароля
+                options.Password.RequireNonAlphanumeric = false; // Не требовать спецсимволы
+                options.Password.RequireUppercase = false; // Не требовать заглавные буквы
+                options.Password.RequireLowercase = false; // Не требовать строчные буквы
+                options.Lockout.MaxFailedAccessAttempts = 5; // Максимум попыток входа
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Время блокировки
             })
             .AddEntityFrameworkStores<CarAppContext>()
             .AddDefaultTokenProviders();
@@ -73,8 +75,8 @@ namespace CarApp
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuthentication(); // Включение аутентификации
+            app.UseAuthorization();  // Включение авторизации
 
             app.MapControllerRoute(
                 name: "default",
