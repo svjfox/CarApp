@@ -1,6 +1,6 @@
-﻿namespace TARgv23CarShop.Core.Domain
+﻿namespace TARgv23CarShop.Models.Cars
 {
-    public class Car
+    public class CarDetailsViewModel
     {
         public Guid? CarId { get; set; }
 
@@ -13,5 +13,10 @@
         public DateTime CreatedAt { get; set; }
 
         public DateTime ModifiedAt { get; set; }
+
+        public List<IFormFile> Files { get; set; }
+
+        public List<CarImageViewModel> Image { get; set; }
+            = new List<CarImageViewModel>();
     }
 }

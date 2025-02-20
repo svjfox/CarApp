@@ -1,104 +1,251 @@
-﻿using System;
-using System.Threading.Tasks;
-using CarApp.Core.Domain;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TARgv23CarShop.Data;
+using TARgv23CarShop.Core.ServiceInterface;
+using TARgv23CarShop.Core.Domain;
+using TARgv23CarShop.Core.Dto;
+using TARgv23CarShop.Models.Cars;
+using static System.Net.Mime.MediaTypeNames;
+using TARgv23CarShop.Data.Migrations;
+using CarApp.Core.Dto;
 using CarApp.Core.ServiceInterface;
-using Microsoft.AspNetCore.Mvc;
 
-namespace CarApp.Controllers
+namespace TARgv23CarShop.Controllers
 {
     public class CarsController : Controller
     {
-        private readonly ICarService _carService;
+        private readonly TARgv23CarShopContext _context;
+        private readonly ICarServices _carServices;
+        private readonly IFileToDatabaseServices _fileToDatabaseServices;
 
-        public CarsController(ICarService carService)
+        public CarsController
+            (
+                TARgv23CarShopContext context,
+                ICarServices CarServices,
+                IFileToDatabaseServices FileToDatabaseServices
+            )
         {
-            _carService = carService;
+            _context = context;
+            _carServices = CarServices;
+            _fileToDatabaseServices = FileToDatabaseServices;
         }
 
-        // Получение всех автомобилей
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var cars = await _carService.GetAllCarsAsync();
-            return View(cars);
+            var result = _context.Cars
+                .Select(x => new CarIndexViewModel
+                {
+                    CarId = x.CarId,
+                    CarName = x.CarName,
+                    CarPrice = x.CarPrice,
+                    CarYear = x.CarYear,
+
+                });
+
+            return View(result);
         }
 
-        // Страница для создания нового автомобиля
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var car = await _carServices.DetailsAsync(id);
+
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+            var images = await _context.FileToDatabase
+                .Where(x => x.CarId == id)
+                .Select(y => new CarImageViewModel
+                {
+                    CarId = y.Id,
+                    ImageId = y.Id,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+
+            var vm = new CarDetailsViewModel();
+
+            vm.CarId = car.CarId;
+            vm.CarName = car.CarName;
+            vm.CarYear = car.CarYear;
+            vm.CarPrice = car.CarPrice;
+            vm.CreatedAt = car.CreatedAt;
+            vm.ModifiedAt = car.ModifiedAt;
+            vm.Image.AddRange(images);
+
+            return View(vm);
+        }
+
+        [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            CarCreateAndUpdateViewModel car = new();
+
+            return View("CreateAndUpdate", car);
         }
 
-        // Обработка формы создания нового автомобиля
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Car car)
+        public async Task<IActionResult> Create(CarCreateAndUpdateViewModel vm)
         {
-            if (ModelState.IsValid)
+            var dto = new CarDto()
             {
-                await _carService.AddCarAsync(car);
+                CarId = vm.CarId,
+                CarName = vm.CarName,
+                CarPrice = vm.CarPrice,
+                CarYear = vm.CarYear,
+                Files = vm.Files,
+                Image = vm.Image
+                    .Select(x => new FileToDatabaseDto
+                    {
+                        Id = x.ImageId,
+                        ImageData = x.ImageData,
+                        ImageTitle = x.ImageTitle,
+                        CarId = x.CarId
+                    }).ToArray()
+            };
+
+            var result = await _carServices.Create(dto);
+
+            if (result == null)
+            {
                 return RedirectToAction(nameof(Index));
             }
-            return View(car);
+
+            return RedirectToAction(nameof(Index), vm);
         }
 
-        // Страница для редактирования автомобиля
-        public async Task<IActionResult> Edit(Guid id)
+        [HttpGet]
+        public async Task<IActionResult> Update(Guid id)
         {
-            var car = await _carService.GetCarByIdAsync(id);
+            var car = await _carServices.DetailsAsync(id);
+
             if (car == null)
             {
                 return NotFound();
             }
-            return View(car);
+
+            var images = await _context.FileToDatabase
+                .Where(x => x.CarId == id)
+                .Select(y => new CarImageViewModel
+                {
+                    CarId = y.CarId,
+                    ImageId = y.Id,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+
+            var vm = new CarCreateAndUpdateViewModel();
+
+            vm.CarId = car.CarId;
+            vm.CarName = car.CarName;
+            vm.CarPrice = car.CarPrice;
+            vm.CarYear = car.CarYear;
+            vm.Image.AddRange(images);
+
+            return View("CreateAndUpdate", vm);
         }
 
-        // Обработка формы редактирования автомобиля
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, Car car)
+        public async Task<IActionResult> Update(CarCreateAndUpdateViewModel vm)
         {
-            if (id != car.Id)
+            var dto = new CarDto()
             {
-                return BadRequest();
-            }
 
-            if (ModelState.IsValid)
+                CarId = vm.CarId,
+                CarName = vm.CarName,
+                CarPrice = vm.CarPrice,
+                CarYear = vm.CarYear,
+                CreatedAt = vm.CreatedAt,
+                ModifiedAt = vm.ModifiedAt,
+                Files = vm.Files,
+                Image = vm.Image
+                    .Select(x => new FileToDatabaseDto
+                    {
+                        Id = x.ImageId,
+                        ImageData = x.ImageData,
+                        ImageTitle = x.ImageTitle,
+                        CarId = x.CarId
+                    }).ToArray()
+            };
+
+
+            var result = await _carServices.Update(dto);
+
+            if (result == null)
             {
-                await _carService.UpdateCarAsync(car);
                 return RedirectToAction(nameof(Index));
             }
-            return View(car);
-        }
-
-        // Страница для удаления автомобиля
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var car = await _carService.GetCarByIdAsync(id);
-            if (car == null)
-            {
-                return NotFound();
-            }
-            return View(car);
-        }
-
-        // Обработка формы удаления автомобиля
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            await _carService.DeleteCarAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        // Страница для просмотра деталей автомобиля
-        public async Task<IActionResult> Details(Guid id)
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var car = await _carService.GetCarByIdAsync(id);
+            var car = await _carServices.DetailsAsync(id);
+
             if (car == null)
             {
                 return NotFound();
             }
-            return View(car);
+
+            var images = await _context.FileToDatabase
+                .Where(x => x.CarId == id)
+                .Select(y => new CarImageViewModel
+                {
+                    CarId = y.CarId,
+                    ImageId = y.Id,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+
+            var vm = new CarDeleteViewModel();
+
+            vm.CarId = car.CarId;
+            vm.CarName = car.CarName;
+            vm.CarPrice = car.CarPrice;
+            vm.CarYear = car.CarYear;
+            vm.CreatedAt = car.CreatedAt;
+            vm.ModifiedAt = car.ModifiedAt;
+            vm.Image.AddRange(images);
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        // Why setting Id variable name show's null value but changing it to CarId then it's works? How does that work?
+        public async Task<IActionResult> DeleteConfirmation(Guid CarId)
+        {
+
+            var car = await _carServices.Delete(CarId);
+
+            if (car == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveImage(CarImageViewModel file)
+        {
+            var dto = new FileToDatabaseDto()
+            {
+                Id = file.ImageId
+            };
+
+            var image = await _fileToDatabaseServices.RemoveImageFromDatabase(dto);
+
+            if (image == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

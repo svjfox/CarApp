@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35506.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp", "CarApp.csproj", "{9305404C-3CB8-465D-B2C1-4B9749D74CFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TARgv23CarShop", "TARgv23CarShop.csproj", "{9305404C-3CB8-465D-B2C1-4B9749D74CFD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{125632D8-DEB1-45D1-841F-89AD43B480AD} = {125632D8-DEB1-45D1-841F-89AD43B480AD}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp.Core", "..\CarApp.Core\CarApp.Core.csproj", "{125632D8-DEB1-45D1-841F-89AD43B480AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TARgv23CarShop.Core", "..\CarApp.Core\TARgv23CarShop.Core.csproj", "{125632D8-DEB1-45D1-841F-89AD43B480AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp.Data", "..\CarApp.Data\CarApp.Data.csproj", "{522BE6C4-0C97-48DF-A366-3AEA4D065EFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TARgv23CarShop.Data", "..\CarApp.Data\TARgv23CarShop.Data.csproj", "{522BE6C4-0C97-48DF-A366-3AEA4D065EFF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{125632D8-DEB1-45D1-841F-89AD43B480AD} = {125632D8-DEB1-45D1-841F-89AD43B480AD}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp.ApplicationServices", "..\CarApp.ApplicationServices\CarApp.ApplicationServices.csproj", "{63F400E9-D08B-4855-80A3-222E2E8EBD2D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TARgv23CarShop.ApplicationServices", "..\CarApp.ApplicationServices\TARgv23CarShop.ApplicationServices.csproj", "{63F400E9-D08B-4855-80A3-222E2E8EBD2D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{522BE6C4-0C97-48DF-A366-3AEA4D065EFF} = {522BE6C4-0C97-48DF-A366-3AEA4D065EFF}
 	EndProjectSection

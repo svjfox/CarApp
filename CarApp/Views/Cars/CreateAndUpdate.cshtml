@@ -1,0 +1,65 @@
+﻿@model TARgv23CarShop.Models.Cars.CarCreateAndUpdateViewModel
+
+@if (Model.CarId.HasValue)
+{
+    <h1>Car Update</h1>
+    ViewData["Title"] = "Car Update";
+}
+else
+{
+    <h1>Car Create</h1>
+    ViewData["Title"] = "Car Create";
+}
+
+<hr />
+
+<div>
+    <form method="post" enctype="multipart/form-data">
+        <input asp-for="CarId" type="hidden" />
+        <input asp-for="CreatedAt" type="hidden" />
+        <input asp-for="ModifiedAt" type="hidden" />
+
+        <div class="field">
+            <label>Name</label>
+            <input asp-for="CarName" />
+        </div>
+
+        <div class="field">
+            <label>Price</label>
+            <input asp-for="CarPrice" />
+        </div>
+
+        <div class="field">
+            <label>Year</label>
+            <input asp-for="CarYear" />
+        </div>
+
+        <div class="field">
+            <label asp-for="Files" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-5">
+                <div class="custom-file">
+                    <input class="form-control custom-file-label" asp-for="Files" multiple type="file" />
+                    <label class="custom-file-label">Choose File...</label>
+                </div>
+            </div>
+        </div>
+
+        @foreach (var images in Model.Image)
+        {
+            <partial name="_Images" model="images" />
+            <input asp-action="removeImage" asp-controller="cars" asp-route-imageId="@images.ImageId" type="submit" class="button danger" value="Remove Image" />
+        }
+
+        <br />
+
+        @if (Model.CarId.HasValue)
+        {
+            <input asp-action="update" asp-controller="cars" type="submit" class="button primary" value="Update" />
+        }
+        else
+        {
+            <input asp-action="create" asp-controller="cars" type="submit" class="button primary" value="Create" />
+        }
+        <input asp-action="index" asp-controller="cars" type="submit" class="button success" value="Back" />
+    </form>
+</div>

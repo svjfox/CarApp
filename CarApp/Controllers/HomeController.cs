@@ -1,31 +1,33 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CarApp.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using TARgv23CarShop.Models;
 
-namespace CarApp.Controllers
+namespace TARgv23CarShop.Controllers
 {
     public class HomeController : Controller
     {
-        // Действие для отображения главной страницы
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        // Действие для отображения страницы "О нас"
-        public IActionResult About()
-        {
-            return View();
-        }
-
-        // Действие для отображения страницы "Контакты"
-        public IActionResult Contact()
-        {
-            return View();
-        }
-
-        // Действие для отображения страницы "Политика конфиденциальности"
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

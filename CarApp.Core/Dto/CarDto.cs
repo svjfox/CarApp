@@ -1,28 +1,25 @@
-﻿using System;
+﻿using CarApp.Core.Dto;
+using Microsoft.AspNetCore.Http;
 
-namespace CarApp.Core.Dto
+namespace TARgv23CarShop.Core.Dto
 {
     public class CarDto
     {
-        // Идентификатор автомобиля
-        public int Id { get; set; }
+        public Guid? CarId { get; set; }
 
-        // Модель автомобиля
-        public string Model { get; set; }
+        public string? CarName { get; set; }
 
-        // Производитель автомобиля
-        public string Manufacturer { get; set; }
+        public float? CarPrice { get; set; }
 
-        // Год выпуска
-        public int Year { get; set; }
+        public DateTime? CarYear { get; set; }
 
-        // Цвет автомобиля
-        public string Color { get; set; }
-
-        // Дата создания записи
         public DateTime CreatedAt { get; set; }
 
-        // Дата последнего изменения записи
         public DateTime ModifiedAt { get; set; }
+
+        public List<IFormFile> Files { get; set; }
+
+        public IEnumerable<FileToDatabaseDto> Image { get; set; }
+            = new List<FileToDatabaseDto>();
     }
 }

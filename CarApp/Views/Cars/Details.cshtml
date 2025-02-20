@@ -1,30 +1,48 @@
-﻿@model CarApp.Core.Dto.CarDto
+﻿@model TARgv23CarShop.Models.Cars.CarDetailsViewModel
 
 @{
-    ViewData["Title"] = "Car Details";
+    ViewData["Title"] = "Car Detail";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h1>Car Details</h1>
 
-<div class="table-responsive">
-    <table class="table">
-        <tr>
-            <th>Model</th>
-            <td>@Model.Model</td>
-        </tr>
-        <tr>
-            <th>Manufacturer</th>
-            <td>@Model.Manufacturer</td>
-        </tr>
-        <tr>
-            <th>Year</th>
-            <td>@Model.Year</td>
-        </tr>
-        <tr>
-            <th>Color</th>
-            <td>@Model.Color</td>
-        </tr>
-    </table>
+<div>
+    <hr />
+
+    <div class="table-wrapper">
+        <table>
+
+            <tr>
+                <td><label class="col-sm-2 col-form-label">ID</label></td>
+                <td><label>@Html.DisplayFor(model => model.CarId)</label></td>
+            </tr>
+            <tr>
+                <td><label class="col-sm-2 col-form-label">Name</label></td>
+                <td><label>@Html.DisplayFor(model => model.CarName)</label></td>
+            </tr>
+            <tr>
+                <td><label class="col-sm-2 col-form-label">Year model</label></td>
+                <td><label>@Html.DisplayFor(model => model.CarYear)</label></td>
+            </tr>
+            <tr>
+                <td><label class="col-sm-2 col-form-label">Price</label></td>
+                <td><label>@Html.DisplayFor(model => model.CarPrice)</label></td>
+            </tr>
+            <tr>
+                <td><label class="col-sm-2 col-form-label">Created At</label></td>
+                <td><label>@Html.DisplayFor(model => model.CreatedAt)</label></td>
+            </tr>
+            <tr>
+                <td><label class="col-sm-2 col-form-label">Modified At</label></td>
+                <td><label>@Html.DisplayFor(model => model.ModifiedAt)</label></td>
+            </tr>
+        </table>
+    </div>
+
+    @foreach (var images in Model.Image)
+    {
+        <partial name="_Images" model="images" />
+    }
+
+    <a asp-action="Index" asp-controller="cars" class="button danger">Back</a>
 </div>
-
-<a href="@Url.Action("Index", "Cars")" class="btn btn-secondary">Back to List</a>

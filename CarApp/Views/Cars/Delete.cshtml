@@ -1,61 +1,52 @@
-﻿@model CarApp.Core.Domain.Car
+﻿@model TARgv23CarShop.Models.Cars.CarDeleteViewModel
+
 
 @{
-    ViewData["Title"] = "Delete Car";
+    ViewData["Title"] = "Car Delete";
 }
 
-<h1>Delete Car</h1>
-
-<h3>Are you sure you want to delete this car?</h3>
+<h1>Car Delete</h1>
 <div>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Brand)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Brand)
-        </dd>
+    <div class="table-wrapper">
+        <table>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Model)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Model)
-        </dd>
+            <tr>
+                <td><label class="col-sm-2 col-form-label">ID</label></td>
+                <td><label>@Html.DisplayFor(model => model.CarId)</label></td>
+            </tr>
+            <tr>
+                <td><label class="col-sm-2 col-form-label">Name</label></td>
+                <td><label>@Html.DisplayFor(model => model.CarName)</label></td>
+            </tr>
+            <tr>
+                <td><label class="col-sm-2 col-form-label">Year model</label></td>
+                <td><label>@Html.DisplayFor(model => model.CarYear)</label></td>
+            </tr>
+            <tr>
+                <td><label class="col-sm-2 col-form-label">Price</label></td>
+                <td><label>@Html.DisplayFor(model => model.CarPrice)</label></td>
+            </tr>
+            <tr>
+                <td><label class="col-sm-2 col-form-label">Created At</label></td>
+                <td><label>@Html.DisplayFor(model => model.CreatedAt)</label></td>
+            </tr>
+            <tr>
+                <td><label class="col-sm-2 col-form-label">Modified At</label></td>
+                <td><label>@Html.DisplayFor(model => model.ModifiedAt)</label></td>
+            </tr>
+        </table>
+    </div>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Year)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Year)
-        </dd>
+    @foreach (var images in Model.Image)
+    {
+        <partial name="_Images" model="images" />
+    }
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Color)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Color)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedAt)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ModifiedAt)
-        </dd>
-    </dl>
-
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" />
-        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <form asp-action="DeleteConfirmation">
+        <input type="hidden" asp-for="CarId" />
+        <input type="submit" value="Delete" class="button danger" />
+        <a asp-action="Index" asp-controller="Cars" class="button success">Back</a>
     </form>
+
 </div>

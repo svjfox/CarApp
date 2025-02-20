@@ -1,53 +1,36 @@
-using CarApp.Core.Domain;
-using CarApp.Data;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using TARgv23CarShop.Data;
 using Microsoft.EntityFrameworkCore;
-using CarApp.ApplicationServices.Services;
+using TARgv23CarShop.Core.ServiceInterface;
+using TARgv23CarShop.ApplicationService.Services;
+using TARgv23CarShop.Core.Domain;
+using CarApp.ApplicationService.Services;
 using CarApp.Core.ServiceInterface;
 
-namespace CarApp
+namespace TARgv23CarShop
 {
     public class Program
     {
-        public Program(IConfiguration configuration)
+        public static void Main(string[] args)
         {
-            Configuration = configuration;
-        }
+            var builder = WebApplication.CreateBuilder(args);
 
-        public IConfiguration Configuration { get; }
+            // Add services to the container.
+            builder.Services.AddControllersWithViews();
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // Подключение к базе данных
-            services.AddDbContext<CarAppContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            // Setting up interfaces
+            builder.Services.AddScoped<ICarServices, CarServices>();
+            builder.Services.AddScoped<IFileToDatabaseServices, FileToDatabaseService>();
 
-            // Конфигурация Identity
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<CarAppContext>()
-                .AddDefaultTokenProviders();
+            builder.Services.AddDbContext<TARgv23CarShopContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Добавление сервиса для автомобилей
-            services.AddScoped<ICarService, CarService>();
+            var app = builder.Build();
 
-            // Конфигурация MVC
-            services.AddControllersWithViews();
-        }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
+            // Configure the HTTP request pipeline.
+            if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -56,15 +39,13 @@ namespace CarApp
 
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Cars}/{action=Index}/{id?}");
-            });
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.Run();
         }
     }
 }
