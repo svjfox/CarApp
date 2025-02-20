@@ -1,13 +1,28 @@
-﻿namespace CarApp.Core.Dto
+﻿using System;
+
+namespace CarApp.Core.Dto
 {
     public class CarDto
     {
-        public int Id { get; set; }  // Идентификатор автомобиля
-        public string Model { get; set; }  // Модель автомобиля
-        public string Manufacturer { get; set; }  // Производитель
-        public int Year { get; set; }  // Год выпуска
-        public string Color { get; set; }  // Цвет автомобиля
-        public DateTime CreatedAt { get; set; }  // Дата создания
-        public DateTime ModifiedAt { get; set; }  // Дата последнего изменения
+        // Идентификатор автомобиля
+        public int Id { get; set; }
+
+        // Модель автомобиля
+        public string Model { get; set; }
+
+        // Производитель автомобиля
+        public string Manufacturer { get; set; }
+
+        // Год выпуска
+        public int Year { get; set; }
+
+        // Цвет автомобиля
+        public string Color { get; set; }
+
+        // Дата создания записи
+        public DateTime CreatedAt { get; set; }
+
+        // Дата последнего изменения записи
+        public DateTime ModifiedAt { get; set; }
     }
 }

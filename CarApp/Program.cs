@@ -1,88 +1,70 @@
+using CarApp.Core.Domain;
 using CarApp.Data;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 using CarApp.ApplicationServices.Services;
 using CarApp.Core.ServiceInterface;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using CarApp.Core.Domain;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 
 namespace CarApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public Program(IConfiguration configuration)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            Configuration = configuration;
+        }
 
-            // Добавление сервисов в контейнер зависимостей
-            builder.Services.AddControllersWithViews();
+        public IConfiguration Configuration { get; }
 
-            // Настройка контекста базы данных
-            builder.Services.AddDbContext<CarAppContext>(options =>
-                options.UseSqlServer(
-                    builder.Configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly("CarApp.Data") // Указываем сборку для миграций
-                ));
+        public void ConfigureServices(IServiceCollection services)
+        {
+            // Подключение к базе данных
+            services.AddDbContext<CarAppContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            // Регистрация сервисов для приложения CarApp
-            builder.Services.AddScoped<ICarService, CarService>();
+            // Конфигурация Identity
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<CarAppContext>()
+                .AddDefaultTokenProviders();
 
-            // Настройка Identity
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            // Добавление сервиса для автомобилей
+            services.AddScoped<ICarService, CarService>();
+
+            // Конфигурация MVC
+            services.AddControllersWithViews();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
             {
-                options.SignIn.RequireConfirmedAccount = false; // Отключение подтверждения аккаунта
-                options.Password.RequiredLength = 6; // Минимальная длина пароля
-                options.Password.RequireNonAlphanumeric = false; // Не требовать спецсимволы
-                options.Password.RequireUppercase = false; // Не требовать заглавные буквы
-                options.Password.RequireLowercase = false; // Не требовать строчные буквы
-                options.Lockout.MaxFailedAccessAttempts = 5; // Максимум попыток входа
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Время блокировки
-            })
-            .AddEntityFrameworkStores<CarAppContext>()
-            .AddDefaultTokenProviders();
-
-            // Настройка сессий
-            builder.Services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
-
-            // Настройка FluentValidation
-            builder.Services.AddFluentValidationAutoValidation();
-            builder.Services.AddFluentValidationClientsideAdapters();
-            builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-
-            var app = builder.Build();
-
-            // Настройка HTTP конвейера запросов
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseSession();
-
             app.UseRouting();
 
-            app.UseAuthentication(); // Включение аутентификации
-            app.UseAuthorization();  // Включение авторизации
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Cars}/{action=Index}/{id?}");
-
-            app.Run();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Cars}/{action=Index}/{id?}");
+            });
         }
     }
 }

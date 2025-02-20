@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using CarApp.Core.Domain;
 using CarApp.Core.ServiceInterface;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CarApp.Controllers
 {
@@ -15,18 +15,22 @@ namespace CarApp.Controllers
             _carService = carService;
         }
 
+        // Получение всех автомобилей
         public async Task<IActionResult> Index()
         {
             var cars = await _carService.GetAllCarsAsync();
             return View(cars);
         }
 
+        // Страница для создания нового автомобиля
         public IActionResult Create()
         {
             return View();
         }
 
+        // Обработка формы создания нового автомобиля
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Car car)
         {
             if (ModelState.IsValid)
@@ -37,6 +41,7 @@ namespace CarApp.Controllers
             return View(car);
         }
 
+        // Страница для редактирования автомобиля
         public async Task<IActionResult> Edit(Guid id)
         {
             var car = await _carService.GetCarByIdAsync(id);
@@ -47,9 +52,16 @@ namespace CarApp.Controllers
             return View(car);
         }
 
+        // Обработка формы редактирования автомобиля
         [HttpPost]
-        public async Task<IActionResult> Edit(Car car)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Guid id, Car car)
         {
+            if (id != car.Id)
+            {
+                return BadRequest();
+            }
+
             if (ModelState.IsValid)
             {
                 await _carService.UpdateCarAsync(car);
@@ -58,6 +70,7 @@ namespace CarApp.Controllers
             return View(car);
         }
 
+        // Страница для удаления автомобиля
         public async Task<IActionResult> Delete(Guid id)
         {
             var car = await _carService.GetCarByIdAsync(id);
@@ -68,11 +81,24 @@ namespace CarApp.Controllers
             return View(car);
         }
 
+        // Обработка формы удаления автомобиля
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             await _carService.DeleteCarAsync(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        // Страница для просмотра деталей автомобиля
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var car = await _carService.GetCarByIdAsync(id);
+            if (car == null)
+            {
+                return NotFound();
+            }
+            return View(car);
         }
     }
 }
