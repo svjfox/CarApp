@@ -1,12 +1,11 @@
-using TARgv23CarShop.Data;
+using CarApp.Data;
 using Microsoft.EntityFrameworkCore;
-using TARgv23CarShop.Core.ServiceInterface;
-using TARgv23CarShop.ApplicationService.Services;
-using TARgv23CarShop.Core.Domain;
-using CarApp.ApplicationService.Services;
 using CarApp.Core.ServiceInterface;
+using CarApp.ApplicationService.Services;
+using CarApp.Core.Domain;
 
-namespace TARgv23CarShop
+
+namespace CarApp
 {
     public class Program
     {
@@ -21,7 +20,7 @@ namespace TARgv23CarShop
             builder.Services.AddScoped<ICarServices, CarServices>();
             builder.Services.AddScoped<IFileToDatabaseServices, FileToDatabaseService>();
 
-            builder.Services.AddDbContext<TARgv23CarShopContext>(options =>
+            builder.Services.AddDbContext<CarAppContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();

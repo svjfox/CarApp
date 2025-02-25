@@ -18,16 +18,5 @@ html {
 }
 
 body {
-    padding-top: 60px; /* Отступ для фиксированного навигационного меню */
-}
-
-.navbar {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень для меню */
-}
-
-.footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #f8f9fa; /* Цвет фона футера */
+  margin-bottom: 60px;
 }

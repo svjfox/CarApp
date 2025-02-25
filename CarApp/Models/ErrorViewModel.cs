@@ -1,4 +1,4 @@
-﻿namespace TARgv23CarShop.Models
+﻿namespace CarApp.Models
 {
     public class ErrorViewModel
     {

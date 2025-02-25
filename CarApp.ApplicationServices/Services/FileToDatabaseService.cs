@@ -1,23 +1,21 @@
-﻿using CarApp.Core.Domain;
-using CarApp.Core.Dto;
-using CarApp.Core.ServiceInterface;
+﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
-using TARgv23CarShop.Core.Domain;
-using TARgv23CarShop.Core.Dto;
-using TARgv23CarShop.Core.ServiceInterface;
-using TARgv23CarShop.Data;
+using CarApp.Core.Domain;
+using CarApp.Core.Dto;
+using CarApp.Core.ServiceInterface;
+using CarApp.Data;
 
-namespace TARgv23CarShop.ApplicationService.Services
+namespace CarApp.ApplicationService.Services
 {
     public class FileToDatabaseService : IFileToDatabaseServices
     {
 
         private readonly IHostEnvironment _webHost;
-        private readonly TARgv23CarShopContext _context;
+        private readonly CarAppContext _context;
 
 
-        public FileToDatabaseService(IHostEnvironment webHost, TARgv23CarShopContext context)
+        public FileToDatabaseService(IHostEnvironment webHost, CarAppContext context)
         {
             _webHost = webHost;
             _context = context;

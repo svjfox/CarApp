@@ -1,4 +1,4 @@
-﻿namespace TARgv23CarShop.Models.Cars
+﻿namespace CarApp.Models.Cars
 {
     public class CarDeleteViewModel
     {

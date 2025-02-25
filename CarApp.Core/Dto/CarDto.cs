@@ -1,7 +1,7 @@
 ﻿using CarApp.Core.Dto;
 using Microsoft.AspNetCore.Http;
 
-namespace TARgv23CarShop.Core.Dto
+namespace CarApp.Core.Dto
 {
     public class CarDto
     {

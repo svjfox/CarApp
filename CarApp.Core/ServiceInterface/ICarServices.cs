@@ -1,7 +1,7 @@
-﻿using TARgv23CarShop.Core.Domain;
-using TARgv23CarShop.Core.Dto;
+﻿using CarApp.Core.Domain;
+using CarApp.Core.Dto;
 
-namespace TARgv23CarShop.Core.ServiceInterface
+namespace CarApp.Core.ServiceInterface
 {
     public interface ICarServices
     {

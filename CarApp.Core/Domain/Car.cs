@@ -1,4 +1,4 @@
-﻿namespace TARgv23CarShop.Core.Domain
+﻿namespace CarApp.Core.Domain
 {
     public class Car
     {

@@ -1,26 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TARgv23CarShop.Data;
-using TARgv23CarShop.Core.ServiceInterface;
-using TARgv23CarShop.Core.Domain;
-using TARgv23CarShop.Core.Dto;
-using TARgv23CarShop.Models.Cars;
-using static System.Net.Mime.MediaTypeNames;
-using TARgv23CarShop.Data.Migrations;
-using CarApp.Core.Dto;
+using CarApp.Data;
 using CarApp.Core.ServiceInterface;
+using CarApp.Core.Domain;
+using CarApp.Core.Dto;
+using CarApp.Models.Cars;
+using static System.Net.Mime.MediaTypeNames;
 
-namespace TARgv23CarShop.Controllers
+
+
+namespace CarApp.Controllers
 {
     public class CarsController : Controller
     {
-        private readonly TARgv23CarShopContext _context;
+        private readonly CarAppContext _context;
         private readonly ICarServices _carServices;
         private readonly IFileToDatabaseServices _fileToDatabaseServices;
 
         public CarsController
             (
-                TARgv23CarShopContext context,
+                CarAppContext context,
                 ICarServices CarServices,
                 IFileToDatabaseServices FileToDatabaseServices
             )

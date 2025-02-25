@@ -1,4 +1,4 @@
-﻿namespace TARgv23CarShop.Core.Dto
+﻿namespace CarApp.Core.Dto
 {
     public class FileToDatabaseDto
     {

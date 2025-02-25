@@ -1,9 +1,9 @@
-﻿using CarApp.Models;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TARgv23CarShop.Models;
+using CarApp.Models;
 
-namespace TARgv23CarShop.Controllers
+namespace CarApp.Controllers
 {
     public class HomeController : Controller
     {

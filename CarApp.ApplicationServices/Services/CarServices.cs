@@ -1,24 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using TARgv23CarShop.Data;
-using TARgv23CarShop.Core.ServiceInterface;
-using TARgv23CarShop.Core.Domain;
-using TARgv23CarShop.Core.Dto;
-using System.Xml;
+using CarApp.Data;
+using CarApp.Core.ServiceInterface;
 using CarApp.Core.Domain;
 using CarApp.Core.Dto;
-using CarApp.Core.ServiceInterface;
+using System.Xml;
 
-namespace TARgv23CarShop.ApplicationService.Services
+
+namespace CarApp.ApplicationService.Services
 {
     public class CarServices : ICarServices
     {
-        private readonly TARgv23CarShopContext _context;
+        private readonly CarAppContext _context;
         private readonly IFileToDatabaseServices _fileToDatabaseServices;
 
         public CarServices
             (
-                TARgv23CarShopContext context,
+                CarAppContext context,
                 IFileToDatabaseServices fileToDatabaseServices
             )
         {
