@@ -57,5 +57,11 @@ namespace CarApp.ApplicationService.Services
             return image;
         }
 
+        public Task SomeMethod()
+        {
+            // Ваш код
+            return Task.CompletedTask;
+        }
+
     }
 }

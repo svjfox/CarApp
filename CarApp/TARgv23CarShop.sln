@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp", "CarApp.csproj", "{9305404C-3CB8-465D-B2C1-4B9749D74CFD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{125632D8-DEB1-45D1-841F-89AD43B480AD} = {125632D8-DEB1-45D1-841F-89AD43B480AD}
+		{3FB6E49A-4AE1-41F3-9E7D-314E239C7FA0} = {3FB6E49A-4AE1-41F3-9E7D-314E239C7FA0}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp.Core", "..\CarApp.Core\CarApp.Core.csproj", "{125632D8-DEB1-45D1-841F-89AD43B480AD}"
@@ -18,6 +19,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp.ApplicationServices", "..\CarApp.ApplicationServices\CarApp.ApplicationServices.csproj", "{63F400E9-D08B-4855-80A3-222E2E8EBD2D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{522BE6C4-0C97-48DF-A366-3AEA4D065EFF} = {522BE6C4-0C97-48DF-A366-3AEA4D065EFF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarApp.CarAppTest", "..\CarApp.CarAppTest\CarApp.CarAppTest.csproj", "{3FB6E49A-4AE1-41F3-9E7D-314E239C7FA0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{125632D8-DEB1-45D1-841F-89AD43B480AD} = {125632D8-DEB1-45D1-841F-89AD43B480AD}
+		{522BE6C4-0C97-48DF-A366-3AEA4D065EFF} = {522BE6C4-0C97-48DF-A366-3AEA4D065EFF}
+		{63F400E9-D08B-4855-80A3-222E2E8EBD2D} = {63F400E9-D08B-4855-80A3-222E2E8EBD2D}
 	EndProjectSection
 EndProject
 Global
@@ -42,6 +50,10 @@ Global
 		{63F400E9-D08B-4855-80A3-222E2E8EBD2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63F400E9-D08B-4855-80A3-222E2E8EBD2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63F400E9-D08B-4855-80A3-222E2E8EBD2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FB6E49A-4AE1-41F3-9E7D-314E239C7FA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FB6E49A-4AE1-41F3-9E7D-314E239C7FA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FB6E49A-4AE1-41F3-9E7D-314E239C7FA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FB6E49A-4AE1-41F3-9E7D-314E239C7FA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

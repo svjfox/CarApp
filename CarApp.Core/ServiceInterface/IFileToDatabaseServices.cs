@@ -8,5 +8,10 @@ namespace CarApp.Core.ServiceInterface
         void UploadFilesToDatabase(CarDto dto, Car domain);
 
         Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto);
+
+        Task SomeMethod();
     }
+
+
 }
+
