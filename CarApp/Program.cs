@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using CarApp.Core.ServiceInterface;
 using CarApp.ApplicationService.Services;
 using CarApp.Core.Domain;
+using CarApp.ApplicationServices.Services;
 
 
 namespace CarApp
@@ -19,6 +20,7 @@ namespace CarApp
             // Setting up interfaces
             builder.Services.AddScoped<ICarServices, CarServices>();
             builder.Services.AddScoped<IFileToDatabaseServices, FileToDatabaseService>();
+            builder.Services.AddScoped<IBarbershopService, BarbershopService>();
 
             builder.Services.AddDbContext<CarAppContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

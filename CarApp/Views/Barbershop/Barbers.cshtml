@@ -1,0 +1,20 @@
+﻿@model IEnumerable<CarApp.Models.Barbershop.BarberViewModel>
+
+<h1>Список барберов</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Опыт</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var barber in Model)
+        {
+            <tr>
+                <td>@barber.Name</td>
+                <td>@barber.Experience</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,22 @@
+﻿@model CarApp.Models.Barbershop.OrderViewModel
+
+<h1>Удаление заказа</h1>
+<form asp-action="DeleteConfirmed">
+    <div>
+        <h4>Вы уверены, что хотите удалить этот заказ?</h4>
+        <div>
+            <label>Клиент: @Model.ClientId</label>
+        </div>
+        <div>
+            <label>Барбер: @Model.BarberId</label>
+        </div>
+        <div>
+            <label>Дата заказа: @Model.OrderDate</label>
+        </div>
+        <div>
+            <label>Услуга: @Model.Service</label>
+        </div>
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>

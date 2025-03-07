@@ -1,0 +1,22 @@
+﻿@model CarApp.Models.Barbershop.OrderViewModel
+
+<h1>Создание/Редактирование заказа</h1>
+<form asp-action="CreateAndUpdate">
+    <div class="form-group">
+        <label asp-for="ClientId"></label>
+        <input asp-for="ClientId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="BarberId"></label>
+        <input asp-for="BarberId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="OrderDate"></label>
+        <input asp-for="OrderDate" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Service"></label>
+        <input asp-for="Service" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
